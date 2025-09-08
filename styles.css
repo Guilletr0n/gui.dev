@@ -1,0 +1,102 @@
+html {
+    font-family: "Doto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "ROND" 0;
+    font-size: 18px;
+}
+
+body {
+    margin: 0;
+    background: #b6e37d;
+    position: relative;
+    min-height: 100dvh;
+    max-width: 90vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(100, 140, 40, 0.03) 0px, rgba(100, 140, 40, 0.03) 2px, transparent 2px, transparent 8px),
+        repeating-linear-gradient(90deg, rgba(100, 140, 40, 0.03) 0px, rgba(100, 140, 40, 0.03) 2px, transparent 2px, transparent 8px);
+}
+
+/* Vignette effect */
+body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    border-radius: 0.5vw;
+    background:
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.2) 100%);
+    mix-blend-mode: multiply;
+    text-align: center;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 720px
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #334411AA;
+}
+
+h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #334411AA;
+}
+
+h3 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #334411AA;
+}
+
+p {
+    font-size: 24px;
+    font-weight: 600;
+    color: #334411DD;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    font-weight: 700;
+    &::before {
+        content: "-> ";
+        color: #334411DD;
+    }
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    padding: 1em;
+    position: absolute;
+    bottom: 12px;
+    z-index: 10;
+    width: 100%;
+    margin: 12px;
+    span {
+        font-size: 24px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+}
