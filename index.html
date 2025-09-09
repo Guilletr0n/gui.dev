@@ -13,44 +13,47 @@
 </head>
 
 <body>
-    <div id="webgazerVideoContainer" style="position: absolute; top: 10px; right: 10px; width: 320px; height: 240px; z-index: 10000;"></div>
-    <div id="webgazerTarget"></div>
-    <!-- Calibration UI -->
-    <div id="calibrationContainer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:20000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);flex-direction:column;">
-        <h2 style="color:white;">Calibration</h2>
-        <p style="color:white;">Click the dots as they appear to calibrate eye tracking.</p>
-        <div id="calibrationDots" style="position:relative;width:80vw;height:60vh;"></div>
-        <button id="calibrationDone" style="display:none;margin-top:2em;">Done</button>
+    <div id="container">
+        <!-- <div id="webgazerVideoContainer"
+            style="position: absolute; top: 10px; right: 10px; width: 320px; height: 240px; z-index: 10000;"></div>
+        <div id="webgazerTarget"></div> -->
+        <!-- Calibration UI -->
+        <!-- <div id="calibrationContainer"
+            style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:20000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);flex-direction:column;">
+            <h2 style="color:white;">Calibration</h2>
+            <p style="color:white;">Click the dots as they appear to calibrate eye tracking.</p>
+            <div id="calibrationDots" style="position:relative;width:80vw;height:60vh;"></div>
+            <button id="calibrationDone" style="display:none;margin-top:2em;">Done</button>
+        </div> -->
+        
+        <main>
+            <section id="content_home">
+                <h1>Guids•dev</h1>
+                <h3>Hello, I'm a web Graphic Interfaces developer :-)</h3>
+            </section>
+            <section id="content_experiencia" class="hidden">
+                <h2>Experiencia Laboral</h2>
+                <p></p>
+            </section>
+            <section id="content_contact" class="hidden">
+                <h2>Contact</h2>
+                <p>Input your email address and I will write you</p>
+            </section>
+        </main>
+        <nav>
+            <ul>
+                <li id="nav-back">Back</li>
+                <li id="nav-home" class="active">Home</li>
+                <li id="nav-past">Past</li>
+                <li id="nav-contact">Contact</li>
+                <li id="nav-past-glowbl" >Glowbl</li>
+                <li id="nav-past-peaks" >Peaks</li>
+                <li id="nav-past-moven" >Moven</li>
+                <li id="nav-past-freelance" >Freelance</li>
+            </ul>
+        </nav>
     </div>
-    <nav>
-        <span id="nav-home" class="active">Home</span>
-        <span id="nav-experiencia">Experiencia Laboral</span>
-        <span id="nav-contact">Contact</span>
-    </nav>
-    <main>
-        <article>
-            <h1>Guids.dev</h1>
-            <aside>
-                <h2>This page is eternally under construction</h2>
-                <h3>This is a portfolio website for freelance developer Guillermo González.</h3>
-            </aside>
-        </article>
-        <article id="content_experiencia" class="hidden">
-            <h2>Experiencia Laboral</h2>
-            <p>Aquí puedes incluir información sobre tu experiencia laboral.</p>
-        </article>
-        <article id="content_contact" class="hidden">
-            <h2>Contact</h2>
-            <p>Aquí puedes incluir información sobre cómo contactarte.</p>
-        </article>
-    </main>
 </body>
 <script src="webgazer.js" type="text/javascript"></script>
-<script src="scripts.js"></script>
-</body>
-
-
-</html></p>
-</body>
-
+<script type="module" src="scripts.js"></script>
 </html>
