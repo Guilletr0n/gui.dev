@@ -29,15 +29,65 @@
         <main>
             <section id="content_home">
                 <h1>Guids•dev</h1>
-                <h3>Hello, I'm a web Graphic Interfaces developer :-)</h3>
+                <h3>Hello, My name is Guillermo González and I create web Graphic Interfaces for a living</h3>
             </section>
-            <section id="content_experiencia" class="hidden">
-                <h2>Experiencia Laboral</h2>
-                <p></p>
+            <section id="content_past_experiencia" class="hidden">
+                <h2>Experience</h2>
+                <p id="output">Navigate through my professional journey and projects.</p>
             </section>
             <section id="content_contact" class="hidden">
                 <h2>Contact</h2>
-                <p>Input your email address and I will write you</p>
+                <p id="email-output">Type your email </p>
+                <ul id="keyboard">
+                    <li><span>A</span></li>
+                    <li><span>B</span></li>
+                    <li><span>C</span></li>
+                    <li><span>D</span></li>
+                    <li><span>E</span></li>
+                    <li><span>F</span></li>
+                    <li><span>G</span></li>
+                    <li><span>H</span></li>
+                    <li><span>I</span></li>
+                    <li><span>J</span></li>
+                    <li><span>K</span></li>
+                    <li><span>L</span></li>
+                    <li><span>M</span></li>
+                    <li><span>N</span></li>
+                    <li><span>O</span></li>
+                    <li><span>P</span></li>
+                    <li><span>Q</span></li>
+                    <li><span>R</span></li>
+                    <li><span>S</span></li>
+                    <li><span>T</span></li>
+                    <li><span>U</span></li>
+                    <li><span>V</span></li>
+                    <li><span>W</span></li>
+                    <li><span>X</span></li>
+                    <li><span>Y</span></li>
+                    <li><span>Z</span></li>
+                    <li><span>@</span></li>
+                    <li><span>.</span></li>
+                    <li><span>_</span></li>
+                    <li><span>-</span></li>
+                    <li><span id="backspace-button">⌫</span></li>
+                    <li><span id="send-button">Send</span></li>
+                </ul>
+            </section>
+            <section id="content_past_glowbl" class="hidden">
+                <h2>Glowbl</h2>
+                <p>From 2011 to 2016 I worked at Glowbl as interaction designer and algo programming on ActionScript</p>
+            </section>
+            <section id="content_past_peaks" class="hidden">
+                <h2>Peaks</h2>
+                <p>From 2016 to 2018 I worked at Peaks as a Frontend developer. I made Wordpress templates and programmed in Vue.js</p>
+            </section>
+            <section id="content_past_moven" class="hidden">
+                <h2>Moven</h2>
+                <p>From 2023 to 2025 I developed the frontend of a web application using NextJS and, Material design, eCharts and MapGL libraries</p>
+            </section>
+            <section id="content_past_freelance" class="hidden">
+                <h2>Freelance</h2>
+                <p>Between my contracts I took on freelance projects to further develop my skills and explore new technologies.</p>
             </section>
         </main>
         <nav>
@@ -55,5 +105,15 @@
     </div>
 </body>
 <script src="webgazer.js" type="text/javascript"></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "-9rKvdiHLRQc9YG1d",
+      });
+   })();
+</script>
 <script type="module" src="scripts.js"></script>
 </html>

@@ -52,6 +52,7 @@ app.use((req, res) => {
   });
 });
 
-http.createServer(app).listen(PORT, () => {
+http.createServer(app).listen(PORT, '0.0.0.0', () => {
   console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server also accessible at http://192.168.0.12:${PORT}`);
 });

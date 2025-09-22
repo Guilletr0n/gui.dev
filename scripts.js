@@ -4,7 +4,7 @@
 // });
 
 // Toggle this constant to enable/disable WebGazer for development
-import { getState, setMenuLevel } from './libraries/state.js';
+import { getState, setMenuLevel, getMenuLevel, getCurrentSection, setCurrentSection } from './libraries/state.js';
 
 const ENABLE_WEBGAZER = false;
 
@@ -129,178 +129,265 @@ const globalStatus = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const navHome = document.getElementById('nav-home');
-    const navExperiencia = document.getElementById('nav-past');
-    const navContact = document.getElementById('nav-contact');
-
-    const contentHome = document.getElementById('content_home');
-    const contentExperiencia = document.getElementById('content_experiencia');
-    const contentContact = document.getElementById('content_contact');
-
-    function showSection(section) {
-        [contentHome, contentExperiencia, contentContact].forEach(function (el) {
-            if (el === section) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
+    // Centralized navigation system
+    function hideAllSections() {
+        const allSections = document.querySelectorAll('section');
+        allSections.forEach(section => {
+            section.classList.add('hidden');
         });
     }
 
-    navHome.addEventListener('click', function () {
-        showSection(contentHome);
-    });
-
-
-    // Helper to show/hide nav-past-* items
-    function setPastNavItemsVisible(visible) {
-        const pastNavs = document.querySelectorAll('[id^="nav-past-"]');
-        pastNavs.forEach(function (item) {
-            if (visible) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
-        });
-    }
-
-    navExperiencia.addEventListener('click', function () {
-        showSection(contentExperiencia);
-        setPastNavItemsVisible(true);
-    });
-
-    // Hide nav-past-* items when other navs are clicked
-    navHome.addEventListener('click', function () {
-        showSection(contentHome);
-        setPastNavItemsVisible(false);
-    });
-    navContact.addEventListener('click', function () {
-        showSection(contentContact);
-        setPastNavItemsVisible(false);
-    });
-
-    navContact.addEventListener('click', function () {
-        showSection(contentContact);
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Setting up navigation event listeners');
-    const navIds = ['nav-home', 'nav-past', 'nav-contact'];
-    const navItems = navIds.map(id => {
-        const el = document.getElementById(id);
-        if (!el) {
-            console.warn(`Element with id '${id}' not found in DOM.`);
-        }
-        return el;
-    });
-
-    // Add pointerdown to each nav item as before
-    navItems.forEach(function (item) {
-        if (!item) return;
-        console.log('Attaching pointerdown listener to:', item.id);
-        item.addEventListener('pointerdown', function (e) {
-            console.log(`Navigation item ${item.id} activated via pointerdown`);
-            navItems.forEach(function (nav) {
-                if (nav) nav.classList.remove('active');
-            });
-            item.classList.add('active');
-        });
-    });
-
-    // Add pointerdown to nav parent (event delegation)
-    const navParent = document.querySelector('nav');
-    if (navParent) {
-        navParent.addEventListener('pointerdown', function (e) {
-            const target = e.target.closest('#nav-home, #nav-past, #nav-contact');
-            if (target) {
-                console.log(`(Delegated) Navigation item ${target.id} activated via pointerdown`);
-                navItems.forEach(function (nav) {
-                    if (nav) nav.classList.remove('active');
-                });
-                target.classList.add('active');
-            }
-        });
-    }
-
-    // Add pointerdown to body (bubbling, last resort)
-    document.body.addEventListener('pointerdown', function (e) {
-        const target = e.target.closest('#nav-home, #nav-past, #nav-contact');
-        if (target) {
-            console.log(`(Body delegated) Navigation item ${target.id} activated via pointerdown`);
-            navItems.forEach(function (nav) {
-                if (nav) nav.classList.remove('active');
-            });
-            target.classList.add('active');
-        }
-    });
-});
-
-// Additional logic can be added here for more complex navigation handling
-document.addEventListener('DOMContentLoaded', function () {
-    let main_menu_level = 1;
-    const navPast = document.getElementById('nav-past');
-    const pastNavItems = Array.from(document.querySelectorAll('[id^="nav-past-"]'));
-    const navItems = Array.from(document.querySelectorAll('nav ul li'));
-    const navBack = document.getElementById('nav-back');
-    function showPastNavItems() {
-        // Show only nav-past-* items and nav-back, hide others
-        navItems.forEach(item => {
-            if (!item) return;
-            if (pastNavItems.includes(item) || item === navBack) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-        navBack.classList.remove('hidden');
-    }
-
-    function hidePastNavItems() {
-        // Hide all nav-past-* items, show main nav items
-        pastNavItems.forEach(item => {
+    function hideAllNavItems() {
+        const allNavItems = document.querySelectorAll('nav ul li');
+        allNavItems.forEach(item => {
             item.style.display = 'none';
         });
-        // Show main nav items (home, past, contact)
+    }
+
+    function showMainNavItems() {
+        // Hide all nav items first
+        const allNavItems = document.querySelectorAll('nav ul li');
+        allNavItems.forEach(item => {
+            item.style.display = 'none';
+        });
+        
+        // Show only main level items
         ['nav-home', 'nav-past', 'nav-contact'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = '';
         });
+        
+        // Hide back button
+        const navBack = document.getElementById('nav-back');
         if (navBack) navBack.classList.add('hidden');
     }
 
-    // Hide past nav items initially
-    hidePastNavItems();
+    function showPastNavItems() {
+        // Hide all nav items first
+        const allNavItems = document.querySelectorAll('nav ul li');
+        allNavItems.forEach(item => {
+            item.style.display = 'none';
+        });
+        
+        // Show only past submenu items
+        const pastNavItems = document.querySelectorAll('[id^="nav-past-"]');
+        pastNavItems.forEach(item => {
+            item.style.display = '';
+        });
+        
+        // Show back button
+        const navBack = document.getElementById('nav-back');
+        if (navBack) {
+            navBack.style.display = '';
+            navBack.classList.remove('hidden');
+        }
+    }
 
-    navPast && navPast.addEventListener('click', function () {
-        main_menu_level = 2;
-        setMenuLevel(main_menu_level);
-        showPastNavItems();
-    });
+    function updateDisplay() {
+        hideAllSections();
+        const currentSection = getCurrentSection();
+        const menuLevel = getMenuLevel();
+        
+        console.log('updateDisplay:', { currentSection, menuLevel });
+        
+        // Show the current section
+        const sectionEl = document.getElementById(currentSection);
+        if (sectionEl) {
+            sectionEl.classList.remove('hidden');
+            console.log('Showing section:', currentSection);
+        } else {
+            console.warn('Section not found:', currentSection);
+        }
+        
+        // Show appropriate navigation
+        if (menuLevel === 2) {
+            showPastNavItems();
+        } else {
+            showMainNavItems();
+        }
+    }
 
-    navBack && navBack.addEventListener('click', function () {
-        main_menu_level = 1;
-        setMenuLevel(main_menu_level);
-        hidePastNavItems();
-    });
-
-    // Hide them when other nav items are clicked
+    // Level 1 Navigation event handlers
     const navHome = document.getElementById('nav-home');
+    const navPast = document.getElementById('nav-past');
     const navContact = document.getElementById('nav-contact');
-    navHome && navHome.addEventListener('click', hidePastNavItems);
-    navContact && navContact.addEventListener('click', hidePastNavItems);
+    const navBack = document.getElementById('nav-back');
+
+    navHome && navHome.addEventListener('click', function() {
+        setCurrentSection('content_home');
+        setMenuLevel(1);
+        updateDisplay();
+    });
+
+    navPast && navPast.addEventListener('click', function() {
+        // When clicking Past, go to level 2 but don't show specific content yet
+        // Show the main experience/past overview
+        setCurrentSection('content_past_experiencia');
+        setMenuLevel(2);
+        updateDisplay();
+    });
+
+    navContact && navContact.addEventListener('click', function() {
+        setCurrentSection('content_contact');
+        setMenuLevel(1);
+        updateDisplay();
+    });
+
+    navBack && navBack.addEventListener('click', function() {
+        // Go back to level 1 and show past overview
+        setCurrentSection('content_past_experiencia');
+        setMenuLevel(1);
+        updateDisplay();
+    });
+
+    // Level 2 Navigation event handlers (Past submenu)
+    const navPastGlowbl = document.getElementById('nav-past-glowbl');
+    const navPastPeaks = document.getElementById('nav-past-peaks');
+    const navPastMoven = document.getElementById('nav-past-moven');
+    const navPastFreelance = document.getElementById('nav-past-freelance');
+
+    navPastGlowbl && navPastGlowbl.addEventListener('click', function() {
+        setCurrentSection('content_past_glowbl');
+        setMenuLevel(2); // Stay in level 2
+        updateDisplay();
+    });
+
+    navPastPeaks && navPastPeaks.addEventListener('click', function() {
+        setCurrentSection('content_past_peaks');
+        setMenuLevel(2); // Stay in level 2
+        updateDisplay();
+    });
+
+    navPastMoven && navPastMoven.addEventListener('click', function() {
+        setCurrentSection('content_past_moven');
+        setMenuLevel(2); // Stay in level 2
+        updateDisplay();
+    });
+
+    navPastFreelance && navPastFreelance.addEventListener('click', function() {
+        setCurrentSection('content_past_freelance');
+        setMenuLevel(2); // Stay in level 2
+        updateDisplay();
+    });
+
+    // Initial display update
+    updateDisplay();
 });
+
+// Remove old navigation logic - now handled by state-based system above
 
 const state = getState();
 
 window.addEventListener('storage', function(event) {
     if (event.key === 'appState') {
-        updateUI();
+        // State changed in another tab, update display
+        document.dispatchEvent(new CustomEvent('stateChanged'));
     }
 });
 
-function updateUI() {
-    const state = getState();
-    // Update the menu level
-    setMenuLevel(state.menuLevel);
-}
+document.addEventListener('stateChanged', function() {
+    // This will be called when state changes
+    const currentSection = getCurrentSection();
+    const menuLevel = getMenuLevel();
+    console.log('State changed:', { currentSection, menuLevel });
+});
+
+// Keyboard functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const outputElement = document.getElementById('email-output');
+    const keyboard = document.getElementById('keyboard');
+    const backspaceButton = document.getElementById('backspace-button');
+    const sendButton = document.getElementById('send-button');
+    
+    // Initialize output content
+    let currentText = '';
+    
+    // Handle keyboard letter clicks
+    if (keyboard) {
+        keyboard.addEventListener('click', function(e) {
+            const clickedElement = e.target;
+            
+            // Check if clicked element is a span inside li (but not backspace or send)
+            if (clickedElement.tagName === 'SPAN' && 
+                clickedElement.id !== 'backspace-button' && 
+                clickedElement.id !== 'send-button') {
+                
+                const letter = clickedElement.textContent;
+                currentText += letter.toLowerCase();
+                updateOutput();
+            }
+        });
+    }
+    
+    // Handle backspace button
+    if (backspaceButton) {
+        backspaceButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (currentText.length > 0) {
+                currentText = currentText.slice(0, -1);
+                updateOutput();
+            }
+        });
+    }
+    
+    // Handle send button
+    if (sendButton) {
+        sendButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (currentText.trim()) {
+                sendEmail(currentText);
+            }
+        });
+    }
+    
+    // Update the output element
+    function updateOutput() {
+        if (outputElement) {
+            outputElement.textContent = currentText || 'Type your email address using the keyboard below...';
+        }
+    }
+    
+    // Send email using EmailJS REST API
+    async function sendEmail(emailContent) {
+        try {
+            const emailData = {
+                service_id: 'service_2g2zppq', // Replace with your EmailJS service ID
+                template_id: 'template_hxzblsa', // Replace with your EmailJS template ID
+                user_id: '-9rKvdiHLRQc9YG1d', // Your public key from the HTML
+                template_params: {
+                    to_email: 'gurumelo.huelva@gmail.com', // Replace with your email
+                    from_email: 'test@service.com', // The user's input as email
+                    message: `New contact from website: ${emailContent}`
+                }
+            };
+            
+            const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailData)
+            });
+            
+            if (response.ok) {
+                // alert('Email sent successfully!');
+                document.getElementById('email-output').textContent = 'Email sent successfully!';
+                // Clear the input
+                currentText = '';
+                updateOutput();
+            } else {
+                const errorData = await response.text();
+                console.error('EmailJS error:', errorData);
+                document.getElementById('email-output').textContent = 'Failed to send email. Please try again.';
+                // alert('Failed to send email. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error sending email:', error);
+            document.getElementById('email-output').textContent = 'Network error. Please check your connection and try again.';
+            // alert('Network error. Please check your connection and try again.');
+        }
+    }
+    
+    // Initialize output on page load
+    updateOutput();
+});

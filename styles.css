@@ -15,6 +15,7 @@ body {
     max-width: 90vw;
     overflow-x: hidden;
     overflow-y: hidden;
+    user-select: none;
     background-image:
         repeating-linear-gradient(0deg, rgba(100, 140, 40, 0.03) 0px, rgba(100, 140, 40, 0.03) 2px, transparent 2px, transparent 8px),
         repeating-linear-gradient(90deg, rgba(100, 140, 40, 0.03) 0px, rgba(100, 140, 40, 0.03) 2px, transparent 2px, transparent 8px);
@@ -155,5 +156,68 @@ nav {
         background: #33441111;
         border: 2px solid #334411DD;
         font-weight: 700;
+    }
+}
+
+#keyboard {
+    /* position: fixed; */
+    /* bottom: 16px; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    /* background: #ffffff88; */
+    /* border-radius: 12px; */
+    /* padding: 8px 16px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 10;
+    list-style: none;
+    max-width: 60vw;
+    min-height: 8ch;
+    li {
+        font-size: 24px;
+        font-weight: 600;
+        color: #334411DD;
+        cursor: pointer;
+        list-style: none;
+        outline: none; /* Remove blue outline */
+        transition: all 0.1s ease; /* Smooth transition for color inversion */
+        
+        /* Remove focus outline */
+        &:focus {
+            outline: none;
+        }
+        
+        /* Color inversion on active/mousedown */
+        &:active {
+            background: #334411DD;
+            color: #ffffff;
+        }
+        
+        span {
+            margin: 2px;
+            padding: 6px;
+            font-size: 32px;
+            color: #33441199;
+            font-weight: 600;
+            border: #33333344 2px solid;
+            outline: none; /* Remove blue outline from span */
+            transition: inherit; /* Inherit transition from parent */
+            
+            /* Remove focus outline */
+            &:focus {
+                outline: none;
+            }
+        }
+        
+        /* Invert span colors when li is active */
+        &:active span {
+            /* background: #00000055; */
+            color: #FFF;
+        }
     }
 }

@@ -20,3 +20,14 @@ export function setMenuLevel(level) {
     state.menuLevel = level;
     setState(state);
 }
+
+export function getCurrentSection() {
+    const state = getState();
+    return state.currentSection || 'content_home';
+}
+
+export function setCurrentSection(sectionId) {
+    const state = getState();
+    state.currentSection = sectionId;
+    setState(state);
+}
